@@ -2,14 +2,16 @@
 {
     public readonly struct EEGData
     {
-        public short Signal01A1 { get; }
+        [EEGChannelIndex(4)]
+        public short SignalO1A1 { get; }
 
-        public short Signal0zA2 { get; }
-
-        public short Signal02A2 { get; }
-
+        [EEGChannelIndex(10)]
         public short SignalA1A2 { get; }
 
-        public short SignalExt { get; }
+        [EEGChannelIndex(15)]
+        public short SignalO2A2 { get; }
+
+        [EEGChannelIndex(21)]
+        public short SignalOzA2 { get; }
     }
 }
