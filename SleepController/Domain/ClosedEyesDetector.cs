@@ -6,9 +6,9 @@ namespace SleepController.Domain
 {
     public class ClosedEyesDetector
     {
-        public int ClosedEyesMinThreshold => 20;
+        public int ClosedEyesMinThreshold => 10;
 
-        public int ClosedEyesMaxThreshold => 40;
+        public int ClosedEyesMaxThreshold => 25;
 
         public int NextWeight => 2;
 
@@ -19,7 +19,7 @@ namespace SleepController.Domain
         public bool IsClosed(IEnumerable<EEGEntry> batch, out int average)
         {
             average = batch.Select(it => it.SignalO1A1)
-                .Sum(it => Math.Abs(it)) / batch.Count();
+                .Sum(it => it) / batch.Count();
 
             FloatingAverage = (PreviousWeight * FloatingAverage + NextWeight * average)
                 / (NextWeight + PreviousWeight);
