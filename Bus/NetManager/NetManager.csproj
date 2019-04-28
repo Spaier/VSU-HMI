@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{213DF3E8-8A30-4AD1-818B-47936F92D86F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NetManager</RootNamespace>
+    <AssemblyName>NetManager</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Debug\NetManager.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Client\ClientControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Client\ClientControl.Designer.cs">
+      <DependentUpon>ClientControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Client\ClientAddress.cs" />
+    <Compile Include="Client\Design\IPAddressConverter.cs" />
+    <Compile Include="Client\NMClient.cs" />
+    <Compile Include="Client\ReseiveClientControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Client\ReseiveClientControl.Designer.cs">
+      <DependentUpon>ReseiveClientControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EventClientArgs.cs" />
+    <Compile Include="EventClientMsgArgs.cs" />
+    <Compile Include="EventMsgArgs.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\ClientSocket.cs" />
+    <Compile Include="Server\NMServer.cs" />
+    <Compile Include="Server\ServerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Server\ServerControl.Designer.cs">
+      <DependentUpon>ServerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Server\ServerDaemon.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Server\ServerDaemon.Designer.cs">
+      <DependentUpon>ServerDaemon.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Client\ClientControl.resx">
+      <DependentUpon>ClientControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Client\ReseiveClientControl.resx">
+      <DependentUpon>ReseiveClientControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Server\ServerControl.resx">
+      <DependentUpon>ServerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Server\ServerDaemon.resx">
+      <DependentUpon>ServerDaemon.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
