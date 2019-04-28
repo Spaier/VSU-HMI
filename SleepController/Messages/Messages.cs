@@ -61,7 +61,7 @@ namespace SleepController.Messages
         /// <summary>
         /// код частоты дискретизации
         /// </summary>
-        public int frequency;
+        public int Frequency;
 
         /// <summary>
         /// данные ЭЭГ
@@ -76,7 +76,6 @@ namespace SleepController.Messages
             B_time = new SystemTime();
             E_time = new SystemTime();
             reserved = new byte[28];
-            frequency = 0;
             Data = new short[ChannelsCount * ChannelLength];
         }
 
@@ -109,7 +108,7 @@ namespace SleepController.Messages
                 reserved = new byte[28];
                 for (var I = 0; I < reserved.Length; I++)
                     reserved[I] = Buffer[36 + I];
-                frequency = BitConverter.ToInt32(Buffer, 64);
+                Frequency = BitConverter.ToInt32(Buffer, 64);
                 Data = new short[ChannelLength * ChannelsCount];
                 for (var I = 0; I < Data.Length; I++)
                     Data[I] = BitConverter.ToInt16(Buffer, 68 + 2 * I);
@@ -156,7 +155,7 @@ namespace SleepController.Messages
             PutBytes(BitConverter.GetBytes(E_time.wSecond), res, 32);
             PutBytes(BitConverter.GetBytes(E_time.wMilliseconds), res, 34);
             PutBytes(reserved, res, 36);
-            PutBytes(BitConverter.GetBytes(frequency), res, 64);
+            PutBytes(BitConverter.GetBytes(Frequency), res, 64);
             for (var I = 0; I < Data.Length; I++)
             {
                 PutBytes(BitConverter.GetBytes(Data[I]), res, 68 + 2 * I);

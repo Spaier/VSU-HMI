@@ -23,7 +23,7 @@ namespace ClientExample
         private void Client_Reseive(object sender, NetManager.EventClientMsgArgs e)
         {
             var message = new SleepControllerMessage(e.Msg);
-            tbReseive.Text += $"{(new ClientAddress(e.ClientId, e.Name))}: Frequency = { message.frequency }";
+            tbReseive.Text += $"{(new ClientAddress(e.ClientId, e.Name))}: Frequency = { message.Frequency }";
         }
 
         private void FormMain_Load(object sender, EventArgs e)

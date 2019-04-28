@@ -2,9 +2,9 @@
 
 namespace SleepController.Domain
 {
-    public class EEGChannel : Attribute
+    public class EEGChannelAttribute : Attribute
     {
-        public EEGChannel(int value, string name)
+        public EEGChannelAttribute(int value, string name)
         {
             Value = value;
             Name = name;
