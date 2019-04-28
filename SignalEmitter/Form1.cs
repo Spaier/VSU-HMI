@@ -115,7 +115,7 @@ namespace TestServer
                         int i = 0;
                         while (!sr.EndOfStream)
                         {
-                            if (i == SleepControllerMessage.LengthData)
+                            if (i == SleepControllerMessage.ChannelLength)
                             {
                                 i = 0;
                                 NMClient.SendData(addresses, data.GetBytes());
@@ -137,9 +137,9 @@ namespace TestServer
                                 f <<= 1;
                             }
                             data.reserved[i] = code;
-                            for (int J = 0; J < Math.Min(strs.Length, SleepControllerMessage.CountChannels); J++)
+                            for (int J = 0; J < Math.Min(strs.Length, SleepControllerMessage.ChannelsCount); J++)
                             {
-                                data.Data[J * SleepControllerMessage.LengthData + i] = short.Parse(strs[J]);
+                                data.Data[J * SleepControllerMessage.ChannelLength + i] = short.Parse(strs[J]);
                             }
                             i++;
                         }
@@ -286,7 +286,7 @@ namespace TestServer
                 int x = 0;
                 int i = 0;
                 DateTime t1 = DateTime.Now;
-                double interval = SleepControllerMessage.LengthData / m_N * 1000;
+                double interval = SleepControllerMessage.ChannelLength / m_N * 1000;
                 while (m_SendSin)
                 {
                     double y;
@@ -298,12 +298,12 @@ namespace TestServer
 
                         x = (x + 1) % (int)m_N;
                     }
-                    for (int j = 0; j < SleepControllerMessage.CountChannels; j++)
+                    for (int j = 0; j < SleepControllerMessage.ChannelsCount; j++)
                     {
                         data.reserved[i] = 0xFF;
-                        data.Data[j * SleepControllerMessage.LengthData + i] = (short)y;
+                        data.Data[j * SleepControllerMessage.ChannelLength + i] = (short)y;
                     }
-                    i = (i + 1) % SleepControllerMessage.LengthData;
+                    i = (i + 1) % SleepControllerMessage.ChannelLength;
                     if (i == 0)
                     {
                         NMClient.SendData(addresses, data.GetBytes());

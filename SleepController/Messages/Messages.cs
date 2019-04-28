@@ -64,7 +64,7 @@ namespace SleepController.Messages
         public int frequency;
 
         /// <summary>
-        /// данные ЭЭГ 29x24
+        /// данные ЭЭГ
         /// </summary>
         public short[] Data;
 
@@ -77,7 +77,7 @@ namespace SleepController.Messages
             E_time = new SystemTime();
             reserved = new byte[28];
             frequency = 0;
-            Data = new short[29 * 24];
+            Data = new short[ChannelsCount * ChannelLength];
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace SleepController.Messages
                 for (int I = 0; I < reserved.Length; I++)
                     reserved[I] = Buffer[36 + I];
                 frequency = BitConverter.ToInt32(Buffer, 64);
-                Data = new short[29 * 24];
+                Data = new short[ChannelLength * ChannelsCount];
                 for (int I = 0; I < Data.Length; I++)
                     Data[I] = BitConverter.ToInt16(Buffer, 68 + 2 * I);
             }
@@ -168,7 +168,7 @@ namespace SleepController.Messages
         /// <summary>
         /// количество каналов в массиве данных
         /// </summary>
-        public static int CountChannels
+        public static int ChannelsCount
         {
             get
             {
@@ -179,7 +179,7 @@ namespace SleepController.Messages
         /// <summary>
         /// число элементов в канале
         /// </summary>
-        public static int LengthData
+        public static int ChannelLength
         {
             get
             {
