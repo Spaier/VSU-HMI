@@ -22,7 +22,7 @@ namespace TestServer
             NMClient.OnReseive += new EventHandler<EventClientMsgArgs>(NMClient_OnReseive);
             NMClient.OnStop += new EventHandler(NMClient_OnStop);
 
-            for (int I = 2; I < 500; I++)
+            for (var I = 2; I < 500; I++)
                 (dgSin.Columns[2] as DataGridViewComboBoxColumn).Items.Add((1000.0 / I).ToString());
             cbN.SelectedIndex = 0;
 
@@ -57,8 +57,8 @@ namespace TestServer
 
         void NMClient_OnDeleteClient(object sender, EventClientArgs e)
         {
-            ClientAddress Cl = new ClientAddress(e.ClientId, e.Name);
-            int I = chClients.Items.Count - 1;
+            var Cl = new ClientAddress(e.ClientId, e.Name);
+            var I = chClients.Items.Count - 1;
             while ((I >= 0) && (Cl.ToString() != chClients.Items[I].ToString()))
                 I--;
             if (I >= 0)
@@ -99,9 +99,9 @@ namespace TestServer
             if ((chClients.CheckedItems.Count > 0) && NMClient.Running)
             {
                 var data = new SleepControllerMessage();
-                int[] addresses = new int[chClients.CheckedItems.Count];
+                var addresses = new int[chClients.CheckedItems.Count];
 
-                for (int j = 0; j < chClients.CheckedItems.Count; j++)
+                for (var j = 0; j < chClients.CheckedItems.Count; j++)
                     addresses[j] = (chClients.CheckedItems[j] as ClientAddress).Id;
 
                 string str;
@@ -112,7 +112,7 @@ namespace TestServer
                         var sr = new StreamReader(dgFiles.Rows[l].Cells[1].Value.ToString());
                         SetTime(DateTime.Now, l);
                         string[] strs;
-                        int i = 0;
+                        var i = 0;
                         while (!sr.EndOfStream)
                         {
                             if (i == SleepControllerMessage.ChannelLength)
@@ -130,14 +130,14 @@ namespace TestServer
 
                             byte f = 1;
                             byte code = 0;
-                            for (int J = 0; J < strs[0].Length; J++)
+                            for (var J = 0; J < strs[0].Length; J++)
                             {
                                 if (strs[0][J] != '0')
                                     code += f;
                                 f <<= 1;
                             }
                             data.reserved[i] = code;
-                            for (int J = 0; J < Math.Min(strs.Length, SleepControllerMessage.ChannelsCount); J++)
+                            for (var J = 0; J < Math.Min(strs.Length, SleepControllerMessage.ChannelsCount); J++)
                             {
                                 data.Data[J * SleepControllerMessage.ChannelLength + i] = short.Parse(strs[J]);
                             }
@@ -164,7 +164,7 @@ namespace TestServer
         {
             if (Control.InvokeRequired)
             {
-                delegate_SetEnabled E = new delegate_SetEnabled(SetEnabled);
+                var E = new delegate_SetEnabled(SetEnabled);
                 Control.Invoke(E, new object[] { Control, Enabled });
             }
             else
@@ -192,7 +192,7 @@ namespace TestServer
             btnSendFile.Enabled = false;
             btnSendSin.Enabled = false;
             chClients.Enabled = false;
-            SendData SD = new SendData(Send_Data);
+            var SD = new SendData(Send_Data);
             SD.BeginInvoke(null, null);
         }
 
@@ -234,22 +234,22 @@ namespace TestServer
         {
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                StreamWriter sw = new StreamWriter(saveFileDialog1.FileName);
-                int N = Convert.ToInt32(cbN.SelectedItem);
-                int minNoise = (int)nMinNoise.Value;
-                int maxNoise = (int)nMaxNoise.Value;
-                int count = (int)nCount.Value;
-                Random r = new Random((int)DateTime.Now.Ticks);
-                for (int i = 0; i < count; i++)
+                var sw = new StreamWriter(saveFileDialog1.FileName);
+                var N = Convert.ToInt32(cbN.SelectedItem);
+                var minNoise = (int)nMinNoise.Value;
+                var maxNoise = (int)nMaxNoise.Value;
+                var count = (int)nCount.Value;
+                var r = new Random((int)DateTime.Now.Ticks);
+                for (var i = 0; i < count; i++)
                 {
                     double x = (short)(chNoise.Checked ? r.Next(minNoise, maxNoise) : 0);
-                    for (int j = 0; j < dgSin.RowCount; j++)
+                    for (var j = 0; j < dgSin.RowCount; j++)
                     {
-                        int a = Convert.ToInt32(dgSin.Rows[j].Cells[1].Value);
-                        double f = Convert.ToDouble(dgSin.Rows[j].Cells[2].Value);
+                        var a = Convert.ToInt32(dgSin.Rows[j].Cells[1].Value);
+                        var f = Convert.ToDouble(dgSin.Rows[j].Cells[2].Value);
                         x += a * Math.Sin(2 * Math.PI * i * f / N);
                     }
-                    for (int j = 0; j < 22; j++)
+                    for (var j = 0; j < 22; j++)
                     {
                         sw.Write((short)x);
                         sw.Write((char)9);
@@ -275,30 +275,30 @@ namespace TestServer
         {
             if ((chClients.CheckedItems.Count > 0) && NMClient.Running)
             {
-                SleepControllerMessage data = new SleepControllerMessage();
-                int[] addresses = new int[chClients.CheckedItems.Count];
+                var data = new SleepControllerMessage();
+                var addresses = new int[chClients.CheckedItems.Count];
 
-                for (int j = 0; j < chClients.CheckedItems.Count; j++)
+                for (var j = 0; j < chClients.CheckedItems.Count; j++)
                     addresses[j] = (chClients.CheckedItems[j] as ClientAddress).Id;
 
-                Random Rnd = new Random((int)DateTime.Now.Ticks);
+                var Rnd = new Random((int)DateTime.Now.Ticks);
 
-                int x = 0;
-                int i = 0;
-                DateTime t1 = DateTime.Now;
-                double interval = SleepControllerMessage.ChannelLength / m_N * 1000;
+                var x = 0;
+                var i = 0;
+                var t1 = DateTime.Now;
+                var interval = SleepControllerMessage.ChannelLength / m_N * 1000;
                 while (m_SendSin)
                 {
                     double y;
                     lock (m_lockObj)
                     {
                         y = m_checkNoise ? Rnd.Next(m_MinNoise, m_MaxNoise) : 0;
-                        for (int j = 0; j < m_Count; j++)
+                        for (var j = 0; j < m_Count; j++)
                             y += m_A[j] * Math.Sin(2 * Math.PI * x * m_F[j] / m_N);
 
                         x = (x + 1) % (int)m_N;
                     }
-                    for (int j = 0; j < SleepControllerMessage.ChannelsCount; j++)
+                    for (var j = 0; j < SleepControllerMessage.ChannelsCount; j++)
                     {
                         data.reserved[i] = 0xFF;
                         data.Data[j * SleepControllerMessage.ChannelLength + i] = (short)y;
@@ -307,7 +307,7 @@ namespace TestServer
                     if (i == 0)
                     {
                         NMClient.SendData(addresses, data.GetBytes());
-                        double dt = (DateTime.Now - t1).TotalMilliseconds;
+                        var dt = (DateTime.Now - t1).TotalMilliseconds;
                         if (dt < interval)
                             Thread.Sleep((int)(interval - dt));
                         t1 = DateTime.Now;
@@ -326,7 +326,7 @@ namespace TestServer
                 btnSendFile.Enabled = false;
                 btnSendSin.Text = "Стоп";
                 chClients.Enabled = false;
-                SendData SD = new SendData(Send_Sin);
+                var SD = new SendData(Send_Sin);
                 SD.BeginInvoke(null, null);
             }
             else
@@ -392,7 +392,7 @@ namespace TestServer
         private void button1_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
-                foreach (string file in openFileDialog1.FileNames)
+                foreach (var file in openFileDialog1.FileNames)
                     dgFiles.Rows.Add(dgFiles.RowCount + 1, file, "");
             btnSendFile.Enabled = dgFiles.RowCount > 0;
         }

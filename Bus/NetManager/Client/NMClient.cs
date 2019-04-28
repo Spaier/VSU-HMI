@@ -215,14 +215,14 @@ namespace NetManager.Client
         {
             try
             {
-                byte[] buf = new byte[2 * sizeof(int)];
-                byte[] tmp = BitConverter.GetBytes(0);
-                for (int i = 0; i < tmp.Length; i++)
+                var buf = new byte[2 * sizeof(int)];
+                var tmp = BitConverter.GetBytes(0);
+                for (var i = 0; i < tmp.Length; i++)
                     buf[i] = tmp[i];
                 tmp = BitConverter.GetBytes(-1);
-                for (int i = 0; i < tmp.Length; i++)
+                for (var i = 0; i < tmp.Length; i++)
                     buf[sizeof(int) + i] = tmp[i];
-                NetworkStream ns = client.GetStream();
+                var ns = client.GetStream();
                 ns.Write(buf, 0, buf.Length);
             }
             catch { };
@@ -295,12 +295,12 @@ namespace NetManager.Client
                 m_SReseive.WaitOne();
                 try
                 {
-                    int i = m_ClientAddresses.Count - 1;
+                    var i = m_ClientAddresses.Count - 1;
                     while ((i >= 0) && (m_ClientAddresses[i].Id != id))
                         i--;
                     if (i >= 0)
                     {
-                        string name = m_ClientAddresses[i].Name;
+                        var name = m_ClientAddresses[i].Name;
                         Reseive?.Invoke(this, new EventClientMsgArgs(id, name, msg));
                     }
                 }
@@ -319,9 +319,9 @@ namespace NetManager.Client
         /// <returns></returns>
         private byte[] Read(NetworkStream ns, int size)
         {
-            byte[] buf = new byte[size];
-            int n = ns.Read(buf, 0, size);
-            int s = 0;
+            var buf = new byte[size];
+            var n = ns.Read(buf, 0, size);
+            var s = 0;
             while (n != size)
             {
                 s += n;
@@ -342,17 +342,17 @@ namespace NetManager.Client
                 m_Client.SendBufferSize = 8388608;
                 m_Client.ReceiveBufferSize = 8388608;
                 m_Client.Connect(new IPEndPoint(IPServer, Port));
-                NetworkStream ns = m_Client.GetStream();
+                var ns = m_Client.GetStream();
                 ns.Write(BitConverter.GetBytes(Name.Length), 0, sizeof(int));
                 //передается на сервер имя клиента
-                for (int i = 0; i < Name.Length; i++)
+                for (var i = 0; i < Name.Length; i++)
                 {
-                    byte[] buf = BitConverter.GetBytes(Name[i]);
+                    var buf = BitConverter.GetBytes(Name[i]);
                     ns.Write(buf, 0, buf.Length);
                 }
                 while (IsRunning && m_Client.Connected)
                 {
-                    int n = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
+                    var n = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
                     if (IsRunning && m_Client.Connected)
                     {
                         if (n == 0)//обработка сообщений от сервера
@@ -364,17 +364,17 @@ namespace NetManager.Client
                                 {
                                     if (n != 0x7FFFFFFF)
                                     {
-                                        int id = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
+                                        var id = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
                                         if (IsRunning && m_Client.Connected)
                                         {
-                                            int len = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
+                                            var len = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
                                             if (IsRunning && m_Client.Connected)
                                             {
-                                                byte[] buf = Read(ns, len * sizeof(char));
+                                                var buf = Read(ns, len * sizeof(char));
                                                 if (IsRunning && m_Client.Connected)
                                                 {
-                                                    string s = "";
-                                                    for (int i = 0; i < buf.Length; i += sizeof(char))
+                                                    var s = "";
+                                                    for (var i = 0; i < buf.Length; i += sizeof(char))
                                                         s += BitConverter.ToChar(buf, i);
                                                     switch (n)
                                                     {
@@ -383,7 +383,7 @@ namespace NetManager.Client
                                                             NewClientEvent(id, s);
                                                             break;
                                                         case -1:
-                                                            int i = m_ClientAddresses.Count - 1;
+                                                            var i = m_ClientAddresses.Count - 1;
                                                             while ((i >= 0) && (m_ClientAddresses[i].Id != id))
                                                                 i--;
                                                             if (i >= 0)
@@ -410,10 +410,10 @@ namespace NetManager.Client
                         }
                         else //получение сообщения
                         {
-                            int len = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
+                            var len = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
                             if (IsRunning && m_Client.Connected)
                             {
-                                byte[] buf = Read(ns, len);
+                                var buf = Read(ns, len);
                                 if (IsRunning && m_Client.Connected)
                                     ReseiveEvent(n, buf);
                             }
@@ -442,7 +442,7 @@ namespace NetManager.Client
         /// </summary>
         public void SendData(int address, byte[] data)
         {
-            int[] arr = new int[1];
+            var arr = new int[1];
             arr[0] = address;
             SendData(arr, data);
         }
@@ -456,14 +456,14 @@ namespace NetManager.Client
         {
             if (IsRunning && m_Client.Connected && (addresses.Length > 0) && (data.Length > 0))
             {
-                NetworkStream ns = m_Client.GetStream();
+                var ns = m_Client.GetStream();
                 if (IsRunning && m_Client.Connected)
                 {
-                    byte[] tmp = new byte[8 + addresses.Length * sizeof(int) + data.Length];
+                    var tmp = new byte[8 + addresses.Length * sizeof(int) + data.Length];
                     Array.Copy(BitConverter.GetBytes(addresses.Length), 0, tmp, 0, sizeof(int));
                     if (IsRunning && m_Client.Connected)
                     {
-                        int i = 0;
+                        var i = 0;
                         while ((i < addresses.Length) && IsRunning && m_Client.Connected)
                             Array.Copy(BitConverter.GetBytes(addresses[i++]), 0, tmp, i * sizeof(int), sizeof(int));
                         Array.Copy(BitConverter.GetBytes(data.Length), 0, tmp, (addresses.Length + 1) * sizeof(int), sizeof(int));
@@ -491,7 +491,7 @@ namespace NetManager.Client
                 {
                     IsRunning = true;
 
-                    Thread thr = new Thread(RunClient);
+                    var thr = new Thread(RunClient);
                     thr.IsBackground = true;
                     thr.Start();
 
@@ -528,8 +528,8 @@ namespace NetManager.Client
         {
             if (IsRunning)
             {
-                byte[] data = new byte[8];
-                NetworkStream ns = m_Client.GetStream();
+                var data = new byte[8];
+                var ns = m_Client.GetStream();
                 data[0] = 0x00;
                 data[1] = 0x00;
                 data[2] = 0x00;

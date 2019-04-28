@@ -107,11 +107,11 @@ namespace SleepController.Messages
                 E_time.wSecond = BitConverter.ToUInt16(Buffer, 32);
                 E_time.wMilliseconds = BitConverter.ToUInt16(Buffer, 34);
                 reserved = new byte[28];
-                for (int I = 0; I < reserved.Length; I++)
+                for (var I = 0; I < reserved.Length; I++)
                     reserved[I] = Buffer[36 + I];
                 frequency = BitConverter.ToInt32(Buffer, 64);
                 Data = new short[ChannelLength * ChannelsCount];
-                for (int I = 0; I < Data.Length; I++)
+                for (var I = 0; I < Data.Length; I++)
                     Data[I] = BitConverter.ToInt16(Buffer, 68 + 2 * I);
             }
             else
@@ -126,7 +126,7 @@ namespace SleepController.Messages
         /// <param name="Index">номер первого элемента, с которого будет осуществлено копирование</param>
         private void PutBytes(byte[] source, byte[] destination, int Index)
         {
-            for (int I = 0; I < source.Length; I++)
+            for (var I = 0; I < source.Length; I++)
                 destination[Index + I] = source[I];
         }
 
@@ -136,7 +136,7 @@ namespace SleepController.Messages
         /// <returns>массив байт структуры</returns>
         public byte[] GetBytes()
         {
-            byte[] res = new byte[Size];
+            var res = new byte[Size];
 
             PutBytes(BitConverter.GetBytes(Marker), res, 0);
             PutBytes(BitConverter.GetBytes(B_time.wYear), res, 4);
@@ -157,7 +157,7 @@ namespace SleepController.Messages
             PutBytes(BitConverter.GetBytes(E_time.wMilliseconds), res, 34);
             PutBytes(reserved, res, 36);
             PutBytes(BitConverter.GetBytes(frequency), res, 64);
-            for (int I = 0; I < Data.Length; I++)
+            for (var I = 0; I < Data.Length; I++)
             {
                 PutBytes(BitConverter.GetBytes(Data[I]), res, 68 + 2 * I);
             }

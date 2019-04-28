@@ -33,7 +33,7 @@ namespace NMServer
         {
             try
             {
-                XmlDocument xmlDoc = new XmlDocument();
+                var xmlDoc = new XmlDocument();
                 xmlDoc.Load(InitFileName);
                 serverDaemon.LoadState(xmlDoc["Settings"]["NetManager"]["Server"]["Network"]);
             }
@@ -42,7 +42,7 @@ namespace NMServer
 
         private void SaveInit()
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             try
             {
                 xmlDoc.Load(InitFileName);
@@ -51,16 +51,16 @@ namespace NMServer
             {
                 xmlDoc.AppendChild(xmlDoc.CreateElement("Settings"));
             }
-            XmlElement root = xmlDoc.DocumentElement;
+            var root = xmlDoc.DocumentElement;
 
-            XmlElement nm = root["NetManager"];
+            var nm = root["NetManager"];
             if (nm == null)
             {
                 nm = xmlDoc.CreateElement("NetManager");
                 root.AppendChild(nm);
             }
 
-            XmlElement el = nm["Server"];
+            var el = nm["Server"];
             if (el == null)
             {
                 el = xmlDoc.CreateElement("Server");

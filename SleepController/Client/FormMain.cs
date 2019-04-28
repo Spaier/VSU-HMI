@@ -3,7 +3,6 @@ using System.Windows.Forms;
 using NetManager.Client;
 using System.Xml;
 using SleepController.Messages;
-using System.Linq;
 
 namespace ClientExample
 {
@@ -27,22 +26,6 @@ namespace ClientExample
             tbReseive.Text += $"{(new ClientAddress(e.ClientId, e.Name))}: Frequency = { message.frequency }";
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (myClientControl.Client.IsRunning && myClientControl.SelectedClientAddresses.Length > 0 && tbSend.Text != "")
-            {
-                ///Подготовка данных к отправке
-                byte[] msg = new byte[tbSend.Text.Length * 2 + 4];
-                Array.Copy(BitConverter.GetBytes(18), msg, 4);
-                for (int i = 0; i < tbSend.Text.Length; i++)
-                    Array.Copy(BitConverter.GetBytes(tbSend.Text[i]), 0, msg, 4 + 2 * i, 2);
-
-                myClientControl.Client.SendData(myClientControl.SelectedClientAddresses, msg);
-                tbReseive.Text += "Отправлено: " + tbSend.Text + "\r\n\r\n";
-                tbSend.Text = "";
-            }
-        }
-
         private void FormMain_Load(object sender, EventArgs e)
         {
             LoadState();
@@ -52,9 +35,9 @@ namespace ClientExample
         {
             try
             {
-                XmlDocument xmlDoc = new XmlDocument();
+                var xmlDoc = new XmlDocument();
                 xmlDoc.Load(InitFileName);
-                XmlElement netManager = xmlDoc["Settings"]["NetManager"];
+                var netManager = xmlDoc["Settings"]["NetManager"];
                 myClientControl.LoadState(netManager);
             }
             catch { }
@@ -64,7 +47,7 @@ namespace ClientExample
 
         private void SaveState()
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            var xmlDoc = new XmlDocument();
             try
             {
                 xmlDoc.Load(InitFileName);
@@ -74,9 +57,9 @@ namespace ClientExample
                 xmlDoc.AppendChild(xmlDoc.CreateElement("Settings"));
             }
 
-            XmlElement root = xmlDoc.DocumentElement;
+            var root = xmlDoc.DocumentElement;
 
-            XmlElement netManager = root["NetManager"];
+            var netManager = root["NetManager"];
             if (netManager == null)
             {
                 netManager = xmlDoc.CreateElement("NetManager");

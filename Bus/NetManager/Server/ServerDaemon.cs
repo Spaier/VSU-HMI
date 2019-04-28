@@ -31,8 +31,8 @@ namespace NetManager.Server
             InitializeComponent();
 
             //определяется IP
-            string[] Lines = new string[IPAddressList.Count];
-            for (int I = 0; I < IPAddressList.Count; I++)
+            var Lines = new string[IPAddressList.Count];
+            for (var I = 0; I < IPAddressList.Count; I++)
                 Lines[I] = IPAddressList[I].AddressFamily.ToString() + ": " + IPAddressList[I].ToString();
             tbIPAddress.Lines = Lines;
             //настраиваются события сервера
@@ -113,7 +113,7 @@ namespace NetManager.Server
         {
             lClients.Text = string.Format(m_ClientCount, Server.Clients.Count);
             tbClients.Clear();
-            for (int i = 0; i < Server.Clients.Count; i++)
+            for (var i = 0; i < Server.Clients.Count; i++)
             {
                 tbClients.Text += Server.Clients[i].ToString();
                 if (i < Server.Clients.Count - 1)

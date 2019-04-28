@@ -143,7 +143,7 @@ namespace NetManager.Server
         /// <param name="data">данные</param>
         private void Write(int Address, byte[] data)
         {
-            int i = m_Clients.Count - 1;
+            var i = m_Clients.Count - 1;
             try
             {
                 while (IsRunning && (i >= 0) && (((ClientSocket)m_Clients[i]).Id != Address))
@@ -202,7 +202,7 @@ namespace NetManager.Server
                     if (Thread.CurrentThread.Priority != ThreadPriority.AboveNormal)
                         Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
 
-                    byte[] buf = new byte[8];
+                    var buf = new byte[8];
                     buf[0] = 0;
                     buf[1] = 0;
                     buf[2] = 0;
@@ -211,7 +211,7 @@ namespace NetManager.Server
                     buf[5] = 0xFF;
                     buf[6] = 0xFF;
                     buf[7] = 0x7F;
-                    for (int I = 0; I < m_Clients.Count; I++)
+                    for (var I = 0; I < m_Clients.Count; I++)
                     {
                         ClientSocket CS = null;
                         try
@@ -277,9 +277,9 @@ namespace NetManager.Server
         /// <returns></returns>
         private byte[] Read(NetworkStream ns, int size)
         {
-            byte[] tmp = new byte[size];
-            int n = ns.Read(tmp, 0, size);
-            int s = 0;
+            var tmp = new byte[size];
+            var n = ns.Read(tmp, 0, size);
+            var s = 0;
             while (n != size)
             {
                 s += n;
@@ -296,18 +296,18 @@ namespace NetManager.Server
         /// <param name="client">текущий клиент</param>
         private void RunClient(ClientSocket client)
         {
-            NetworkStream ns = client.Socket.GetStream();
+            var ns = client.Socket.GetStream();
             try
             {
                 while (IsRunning && client.Socket.Connected)
                 {
-                    int n = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
+                    var n = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
                     if (IsRunning && client.Socket.Connected)
                     {
                         if (n == 0) //данные для сервера
                         {
                             //считывается команда
-                            int Com = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
+                            var Com = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
                             if (IsRunning && client.Socket.Connected)
                             {
                                 switch (Com)
@@ -328,21 +328,21 @@ namespace NetManager.Server
                         }
                         else//пересылка данных
                         {
-                            int[] addresses = new int[n];
-                            byte[] buf = Read(ns, (n + 1) * sizeof(int));
+                            var addresses = new int[n];
+                            var buf = Read(ns, (n + 1) * sizeof(int));
                             if (IsRunning && client.Socket.Connected)
                             {
-                                for (int i = 0; i < n; i++)
+                                for (var i = 0; i < n; i++)
                                     addresses[i] = BitConverter.ToInt32(buf, i * sizeof(int));
-                                int size = BitConverter.ToInt32(buf, n * sizeof(int));
-                                byte[] tmp = Read(ns, size);
+                                var size = BitConverter.ToInt32(buf, n * sizeof(int));
+                                var tmp = Read(ns, size);
                                 buf = new byte[size + 2 * sizeof(int)];
                                 Array.Copy(tmp, 0, buf, 2 * sizeof(int), size);
                                 if (IsRunning && client.Socket.Connected)
                                 {
                                     Array.Copy(BitConverter.GetBytes(client.Id), 0, buf, 0, sizeof(int));
                                     Array.Copy(BitConverter.GetBytes(size), 0, buf, sizeof(int), sizeof(int));
-                                    int i = 0;
+                                    var i = 0;
                                     while (IsRunning && client.Socket.Connected && (i < n))
                                         Write(addresses[i++], buf);
                                 }
@@ -405,17 +405,17 @@ namespace NetManager.Server
                 m_Clients.Add(client);
                 AddClientEvent(client.Id, client.Name);
 
-                byte[] data = new byte[4 * sizeof(int) + client.Name.Length * sizeof(char)];
+                var data = new byte[4 * sizeof(int) + client.Name.Length * sizeof(char)];
                 byte[] buf;
-                int index = 0;
+                var index = 0;
                 CopyBytes(BitConverter.GetBytes(0), data, ref index);
                 CopyBytes(BitConverter.GetBytes(1), data, ref index);
                 CopyBytes(BitConverter.GetBytes(client.Id), data, ref index);
                 CopyBytes(BitConverter.GetBytes(client.Name.Length), data, ref index);
-                for (int i = 0; i < client.Name.Length; i++)
+                for (var i = 0; i < client.Name.Length; i++)
                     CopyBytes(BitConverter.GetBytes(client.Name[i]), data, ref index);
 
-                for (int i = 0; i < m_Clients.Count; i++)
+                for (var i = 0; i < m_Clients.Count; i++)
                 {
                     if (((ClientSocket)m_Clients[i]).Id != client.Id)
                     {
@@ -430,7 +430,7 @@ namespace NetManager.Server
                             CopyBytes(BitConverter.GetBytes((int)1), buf, ref index);
                             CopyBytes(BitConverter.GetBytes(((ClientSocket)m_Clients[i]).Id), buf, ref index);
                             CopyBytes(BitConverter.GetBytes(((ClientSocket)m_Clients[i]).Name.Length), buf, ref index);
-                            for (int j = 0; j < ((ClientSocket)m_Clients[i]).Name.Length; j++)
+                            for (var j = 0; j < ((ClientSocket)m_Clients[i]).Name.Length; j++)
                                 CopyBytes(BitConverter.GetBytes(((ClientSocket)m_Clients[i]).Name[j]), buf, ref index);
                             client.Send(buf);
                         }
@@ -481,8 +481,8 @@ namespace NetManager.Server
                     m_Clients.Remove(client);
 
                     int i;
-                    byte[] data = new byte[4 * sizeof(int) + client.Name.Length * sizeof(char)];
-                    int index = 0;
+                    var data = new byte[4 * sizeof(int) + client.Name.Length * sizeof(char)];
+                    var index = 0;
                     CopyBytes(BitConverter.GetBytes((int)0), data, ref index);
                     CopyBytes(BitConverter.GetBytes((int)-1), data, ref index);
                     CopyBytes(BitConverter.GetBytes(client.Id), data, ref index);
@@ -520,16 +520,16 @@ namespace NetManager.Server
             client.SendBufferSize = 0xFFFFFF;
             try
             {
-                NetworkStream ns = client.GetStream();
+                var ns = client.GetStream();
                 if (IsRunning)
                 {
-                    int n = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
+                    var n = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
 
                     if (IsRunning)
                     {
-                        byte[] data = Read(ns, n * sizeof(char));
-                        string name = "";
-                        for (int i = 0; i < data.Length; i += 2)
+                        var data = Read(ns, n * sizeof(char));
+                        var name = "";
+                        for (var i = 0; i < data.Length; i += 2)
                             name += BitConverter.ToChar(data, i);
 
                         clientSocket = new ClientSocket(name, client);
@@ -578,8 +578,8 @@ namespace NetManager.Server
         /// </summary>
         private void StopListener()
         {
-            byte[] buf = new byte[8];
-            for (int i = 0; i < 7; i++)
+            var buf = new byte[8];
+            for (var i = 0; i < 7; i++)
                 buf[i] = 0;
             //закрываются связи
             while (m_Clients.Count > 0)

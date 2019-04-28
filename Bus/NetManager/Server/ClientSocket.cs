@@ -37,7 +37,7 @@ namespace NetManager.Server
             m_SWrite.WaitOne();
             try
             {
-                NetworkStream ns = Socket.GetStream();
+                var ns = Socket.GetStream();
                 ns.Write(data, 0, data.Length);
             }
             finally

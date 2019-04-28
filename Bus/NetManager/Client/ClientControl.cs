@@ -77,8 +77,8 @@ namespace NetManager.Client
 
         private void Client_DeleteClient(object sender, EventClientArgs e)
         {
-            ClientAddress cl = new ClientAddress(e.ClientId, e.Name);
-            int i = chClients.Items.Count - 1;
+            var cl = new ClientAddress(e.ClientId, e.Name);
+            var i = chClients.Items.Count - 1;
             while (i >= 0 && cl.Id != (chClients.Items[i] as ClientAddress).Id)
                 i--;
             if (i >= 0)
@@ -87,7 +87,7 @@ namespace NetManager.Client
 
         private void Client_NewClient(object sender, EventClientArgs e)
         {
-            ClientAddress cl = new ClientAddress(e.ClientId, e.Name);
+            var cl = new ClientAddress(e.ClientId, e.Name);
             chClients.Items.Add(cl);
         }
 
@@ -99,7 +99,7 @@ namespace NetManager.Client
         {
             get
             {
-                List<ClientAddress> clients = new List<ClientAddress>(chClients.SelectedItems.Count);
+                var clients = new List<ClientAddress>(chClients.SelectedItems.Count);
                 foreach (ClientAddress value in chClients.SelectedItems)
                     clients.Add(value);
                 return clients.AsReadOnly();
@@ -114,8 +114,8 @@ namespace NetManager.Client
         {
             get
             {
-                int[] clients = new int[chClients.SelectedItems.Count];
-                for (int i = 0; i < chClients.SelectedItems.Count; i++)
+                var clients = new int[chClients.SelectedItems.Count];
+                for (var i = 0; i < chClients.SelectedItems.Count; i++)
                     clients[i] = (chClients.SelectedItems[i] as ClientAddress).Id;
                 return clients;
             }

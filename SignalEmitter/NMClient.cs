@@ -130,7 +130,7 @@ namespace NetManager
         {
             if (Control.InvokeRequired)
             {
-                DelegateErrorEvent Ev = new DelegateErrorEvent(ErrorEvent);
+                var Ev = new DelegateErrorEvent(ErrorEvent);
                 Control.Invoke(Ev, msg);
             }
             else
@@ -161,7 +161,7 @@ namespace NetManager
         {
             if ((Control != null) && Control.InvokeRequired)
             {
-                DelegateChangeClientEvent Ev = new DelegateChangeClientEvent(NewClientEvent);
+                var Ev = new DelegateChangeClientEvent(NewClientEvent);
                 Control.Invoke(Ev, Id, Name);
             }
             else
@@ -183,7 +183,7 @@ namespace NetManager
         {
             if ((Control != null) && Control.InvokeRequired)
             {
-                DelegateChangeClientEvent Ev = new DelegateChangeClientEvent(DeleteClientEvent);
+                var Ev = new DelegateChangeClientEvent(DeleteClientEvent);
                 Control.Invoke(Ev, Id, Name);
             }
             else
@@ -199,14 +199,14 @@ namespace NetManager
         {
             try
             {
-                byte[] buf = new byte[2 * sizeof(int)];
-                byte[] tmp = BitConverter.GetBytes((int)0);
-                for (int I = 0; I < tmp.Length; I++)
+                var buf = new byte[2 * sizeof(int)];
+                var tmp = BitConverter.GetBytes((int)0);
+                for (var I = 0; I < tmp.Length; I++)
                     buf[I] = tmp[I];
                 tmp = BitConverter.GetBytes((int)-1);
-                for (int I = 0; I < tmp.Length; I++)
+                for (var I = 0; I < tmp.Length; I++)
                     buf[sizeof(int) + I] = tmp[I];
-                NetworkStream ns = Client.GetStream();
+                var ns = Client.GetStream();
                 ns.Write(buf, 0, buf.Length);
             }
             catch { };
@@ -231,7 +231,7 @@ namespace NetManager
         {
             if ((Control != null) && Control.InvokeRequired)
             {
-                DelegateCloseEvent Ev = new DelegateCloseEvent(StopEvent);
+                var Ev = new DelegateCloseEvent(StopEvent);
                 Control.Invoke(Ev);
             }
             else
@@ -286,18 +286,18 @@ namespace NetManager
         {
             if ((Control != null) && Control.InvokeRequired)
             {
-                DelegateReseiveEvent Ev = new DelegateReseiveEvent(ReseiveEvent);
+                var Ev = new DelegateReseiveEvent(ReseiveEvent);
                 Control.Invoke(Ev, Id, Msg);
             }
             else
             {
                 SReseive.WaitOne();
-                int I = ClientAddresses.Count - 1;
+                var I = ClientAddresses.Count - 1;
                 while ((I >= 0) && (ClientAddresses[I].Id != Id))
                     I--;
                 if (I >= 0)
                 {
-                    string Name = ClientAddresses[I].Name;
+                    var Name = ClientAddresses[I].Name;
                     if (OnReseive != null)
                         OnReseive(this, new EventClientMsgArgs(Id, Name, Msg));
                 }
@@ -313,9 +313,9 @@ namespace NetManager
         /// <returns></returns>
         private byte[] Read(NetworkStream ns, int Size)
         {
-            byte[] buf = new byte[Size];
-            int N = ns.Read(buf, 0, Size);
-            int S = 0;
+            var buf = new byte[Size];
+            var N = ns.Read(buf, 0, Size);
+            var S = 0;
             while (N != Size)
             {
                 S += N;
@@ -336,17 +336,17 @@ namespace NetManager
                 Client.SendBufferSize = 8388608;
                 Client.ReceiveBufferSize = 8388608;
                 Client.Connect(new IPEndPoint(IPServer, Port));
-                NetworkStream ns = Client.GetStream();
+                var ns = Client.GetStream();
                 ns.Write(BitConverter.GetBytes(Name.Length), 0, sizeof(int));
                 //передается на сервер имя клиента
-                for (int I = 0; I < Name.Length; I++)
+                for (var I = 0; I < Name.Length; I++)
                 {
-                    byte[] buf = BitConverter.GetBytes(Name[I]);
+                    var buf = BitConverter.GetBytes(Name[I]);
                     ns.Write(buf, 0, buf.Length);
                 }
                 while (Running && Client.Connected)
                 {
-                    int N = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
+                    var N = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
                     if (Running && Client.Connected)
                     {
                         if (N == 0)//обработка сообщений от сервера
@@ -358,17 +358,17 @@ namespace NetManager
                                 {
                                     if (N != (int)0x7FFFFFFF)
                                     {
-                                        int Id = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
+                                        var Id = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
                                         if (Running && Client.Connected)
                                         {
-                                            int Len = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
+                                            var Len = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
                                             if (Running && Client.Connected)
                                             {
-                                                byte[] buf = Read(ns, Len * sizeof(char));
+                                                var buf = Read(ns, Len * sizeof(char));
                                                 if (Running && Client.Connected)
                                                 {
-                                                    string S = "";
-                                                    for (int I = 0; I < buf.Length; I += sizeof(char))
+                                                    var S = "";
+                                                    for (var I = 0; I < buf.Length; I += sizeof(char))
                                                         S += BitConverter.ToChar(buf, I);
                                                     switch (N)
                                                     {
@@ -377,7 +377,7 @@ namespace NetManager
                                                             NewClientEvent(Id, S);
                                                             break;
                                                         case -1:
-                                                            int I = ClientAddresses.Count - 1;
+                                                            var I = ClientAddresses.Count - 1;
                                                             while ((I >= 0) && (ClientAddresses[I].Id != Id))
                                                                 I--;
                                                             if (I >= 0)
@@ -404,10 +404,10 @@ namespace NetManager
                         }
                         else //получение сообщения
                         {
-                            int Len = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
+                            var Len = BitConverter.ToInt32(Read(ns, sizeof(int)), 0);
                             if (Running && Client.Connected)
                             {
-                                byte[] buf = Read(ns, Len);
+                                var buf = Read(ns, Len);
                                 if (Running && Client.Connected)
                                     ReseiveEvent(N, buf);
                             }
@@ -436,7 +436,7 @@ namespace NetManager
         /// </summary>
         public void SendData(int Address, byte[] Data)
         {
-            int[] arr = new int[1];
+            var arr = new int[1];
             arr[0] = Address;
             SendData(arr, Data);
         }
@@ -450,14 +450,14 @@ namespace NetManager
         {
             if (Running && Client.Connected && (Addresses.Length > 0) && (Data.Length > 0))
             {
-                NetworkStream ns = Client.GetStream();
+                var ns = Client.GetStream();
                 if (Running && Client.Connected)
                 {
-                    byte[] tmp = new byte[8 + Addresses.Length * sizeof(int) + Data.Length];
+                    var tmp = new byte[8 + Addresses.Length * sizeof(int) + Data.Length];
                     Array.Copy(BitConverter.GetBytes(Addresses.Length), 0, tmp, 0, sizeof(int));
                     if (Running && Client.Connected)
                     {
-                        int I = 0;
+                        var I = 0;
                         while ((I < Addresses.Length) && Running && Client.Connected)
                             Array.Copy(BitConverter.GetBytes(Addresses[I++]), 0, tmp, I * sizeof(int), sizeof(int));
                         Array.Copy(BitConverter.GetBytes(Data.Length), 0, tmp, (Addresses.Length + 1) * sizeof(int), sizeof(int));
@@ -520,8 +520,8 @@ namespace NetManager
         {
             if (Running)
             {
-                byte[] data = new byte[8];
-                NetworkStream ns = Client.GetStream();
+                var data = new byte[8];
+                var ns = Client.GetStream();
                 data[0] = 0x00;
                 data[1] = 0x00;
                 data[2] = 0x00;
