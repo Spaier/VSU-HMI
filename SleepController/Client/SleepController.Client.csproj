@@ -91,12 +91,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bus\NetManager\NetManager.csproj">
+    <ProjectReference Include="..\..\Bus\NetManager\NetManager.csproj">
       <Project>{213df3e8-8a30-4ad1-818b-47936f92d86f}</Project>
       <Name>NetManager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SleepController.Messages\SleepController.Messages.csproj">
-      <Project>{1DE17936-CE12-45B7-8DF1-36494AEDD37B}</Project>
+    <ProjectReference Include="..\Domain\SleepController.Domain.csproj">
+      <Project>{b6bba69a-8a5d-4b0b-a516-5f5ed769db68}</Project>
+      <Name>SleepController.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Messages\SleepController.Messages.csproj">
+      <Project>{e128e3d0-f4da-453b-85b2-3eb84c73953f}</Project>
       <Name>SleepController.Messages</Name>
     </ProjectReference>
   </ItemGroup>

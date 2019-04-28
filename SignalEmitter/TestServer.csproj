@@ -145,8 +145,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SleepController.Messages\SleepController.Messages.csproj">
-      <Project>{1de17936-ce12-45b7-8df1-36494aedd37b}</Project>
+    <ProjectReference Include="..\SleepController\Messages\SleepController.Messages.csproj">
+      <Project>{e128e3d0-f4da-453b-85b2-3eb84c73953f}</Project>
       <Name>SleepController.Messages</Name>
     </ProjectReference>
   </ItemGroup>
