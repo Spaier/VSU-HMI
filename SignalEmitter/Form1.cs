@@ -122,8 +122,9 @@ namespace TestServer
                             if (i == SleepControllerMessage.ChannelLength)
                             {
                                 i = 0;
+                                var delay = SleepControllerMessage.ChannelLength * 1000 / data.Frequency;
+                                Thread.Sleep(delay - 10);
                                 NMClient.SendData(addresses, data.GetBytes());
-                                Thread.Sleep(4);
                             }
                             str = sr.ReadLine();
 
