@@ -98,7 +98,11 @@ namespace TestServer
         {
             if ((chClients.CheckedItems.Count > 0) && NMClient.Running)
             {
-                var data = new SleepControllerMessage();
+                var data = new SleepControllerMessage
+                {
+                    Frequency = 200 // TODO: PARSE
+                };
+
                 var addresses = new int[chClients.CheckedItems.Count];
 
                 for (var j = 0; j < chClients.CheckedItems.Count; j++)
