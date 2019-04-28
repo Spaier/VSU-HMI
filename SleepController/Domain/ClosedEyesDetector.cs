@@ -12,6 +12,8 @@ namespace SleepController.Domain
 
         public int NextWeight => 2;
 
+        public int PreviousWeight => 1;
+
         public int FloatingAverage { get; protected set; }
 
         public bool IsClosed(IEnumerable<EEGEntry> batch, out int average)
@@ -19,7 +21,8 @@ namespace SleepController.Domain
             average = batch.Select(it => it.SignalO1A1)
                 .Sum(it => Math.Abs(it)) / batch.Count();
 
-            FloatingAverage = (FloatingAverage + NextWeight * average) / (NextWeight + 1);
+            FloatingAverage = (PreviousWeight * FloatingAverage + NextWeight * average)
+                / (NextWeight + PreviousWeight);
 
             var antialiasing = Math.Abs(FloatingAverage - average);
 
