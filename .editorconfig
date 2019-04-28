@@ -1,6 +1,9 @@
-[*]
+﻿[*]
 charset = utf-8-bom
 end_of_line = crlf
 indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
+
+[*.cs]
+csharp_style_var_when_type_is_apparent = true:suggestion
