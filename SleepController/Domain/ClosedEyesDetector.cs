@@ -8,14 +8,23 @@ namespace SleepController.Domain
     {
         public int ClosedEyesMinThreshold => 20;
 
-        public int ClosedEyesMaxThreshold => 45;
+        public int ClosedEyesMaxThreshold => 40;
 
-        public bool IsClosed(IEnumerable<EEGEntry> batch)
+        public int NextWeight => 2;
+
+        public int FloatingAverage { get; protected set; }
+
+        public bool IsClosed(IEnumerable<EEGEntry> batch, out int average)
         {
-            var average = batch.Select(it => it.SignalO1A1)
+            average = batch.Select(it => it.SignalO1A1)
                 .Sum(it => Math.Abs(it)) / batch.Count();
 
-            return average >= ClosedEyesMinThreshold && average <= ClosedEyesMaxThreshold;
+            FloatingAverage = (FloatingAverage + NextWeight * average) / (NextWeight + 1);
+
+            var antialiasing = Math.Abs(FloatingAverage - average);
+
+            return antialiasing >= ClosedEyesMinThreshold
+                && antialiasing <= ClosedEyesMaxThreshold;
         }
     }
 }

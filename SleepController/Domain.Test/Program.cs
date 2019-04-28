@@ -14,7 +14,7 @@ namespace SleepController.Domain.Test
             var parser = new EEGParser();
             var eeg = await parser.Parse(streamReader).ConfigureAwait(false);
             var detector = new ClosedEyesDetector();
-            var result = new List<(IEnumerable<EEGEntry> Batch, bool IsClosed)>();
+            var result = new List<(EEGEntry Entry, bool IsClosed, int Average, int FloatingAverage)>();
             var batchSize = 24;
             {
                 var i = 0;
@@ -22,24 +22,36 @@ namespace SleepController.Domain.Test
                 {
                     var batch = eeg.Data
                         .Skip(batchSize * i++)
-                        .Take(batchSize)
-                        .ToList();
+                        .Take(batchSize);
 
-                    if (batch.Count() is 0)
+                    if (!batch.Any())
                     {
                         break;
                     }
 
-                    var isClosed = detector.IsClosed(batch);
-                    result.Add((batch, isClosed));
+                    var isClosed = detector.IsClosed(batch, out var average);
+                    result.AddRange(batch.Select(entry => (entry, isClosed, average, detector.FloatingAverage)));
                 }
             }
-            var isClosedArray = result
-                .SelectMany(it => it.Batch.Select(batch => it.IsClosed))
-                .ToList();
 
-            await File.WriteAllLinesAsync("results.txt", isClosedArray
-                .Select(it => it ? "1" : "0")
+            await File.WriteAllLinesAsync("results.csv", result
+                .Select(it => $"{(it.IsClosed ? "1" : "0")},{it.Average},{it.FloatingAverage},{it.Entry.SignalO1A1}")
+                .Prepend("IsClosed,Average,FloatingAverage,Value")
+                .ToArray())
+                .ConfigureAwait(false);
+
+            await File.WriteAllLinesAsync("is_closed.txt", result
+                .Select(it => $"{(it.IsClosed ? "1" : "0")}")
+                .ToArray())
+                .ConfigureAwait(false);
+
+            await File.WriteAllLinesAsync("average.txt", result
+                .Select(it => $"{it.Average}")
+                .ToArray())
+                .ConfigureAwait(false);
+
+            await File.WriteAllLinesAsync("floating_average.txt", result
+                .Select(it => $"{it.FloatingAverage}")
                 .ToArray())
                 .ConfigureAwait(false);
 
