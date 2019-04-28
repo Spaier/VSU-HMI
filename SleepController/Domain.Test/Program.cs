@@ -35,7 +35,7 @@ namespace SleepController.Domain.Test
                 }
             }
             var isClosedArray = result
-                .SelectMany(it => Enumerable.Repeat(it.IsClosed, batchSize))
+                .SelectMany(it => it.Batch.Select(batch => it.IsClosed))
                 .ToList();
 
             await File.WriteAllLinesAsync("results.txt", isClosedArray
