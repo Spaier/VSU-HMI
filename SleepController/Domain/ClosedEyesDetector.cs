@@ -7,7 +7,7 @@ namespace SleepController.Domain
 {
     public class ClosedEyesDetector
     {
-        public int ClosedEyesMinThreshold => 40;
+        public int ClosedEyesMinThreshold => 30;
 
         public int NextWeight => 2;
 
