@@ -29,8 +29,8 @@ namespace SleepController.Domain.Test
                         break;
                     }
 
-                    var isClosed = detector.IsClosed(batch, out var average);
-                    result.AddRange(batch.Select(entry => (entry, isClosed, average, detector.FloatingAverage)));
+                    var isClosed = detector.IsClosed(batch);
+                    result.AddRange(batch.Select(entry => (entry, isClosed, detector.Average, detector.FloatingAverage)));
                 }
             }
 

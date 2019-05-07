@@ -4,6 +4,8 @@ using NetManager.Client;
 using System.Xml;
 using SleepController.Messages;
 using SleepController.Domain;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ClientExample
 {
@@ -18,6 +20,8 @@ namespace ClientExample
 
         private ClosedEyesDetector ClosedEyesDetector { get; set; } = new ClosedEyesDetector();
 
+        public bool IsClosed { get; set; }
+
         private void Client_Error(object sender, NetManager.EventMsgArgs e)
         {
             MessageBox.Show(e.Msg, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -26,7 +30,12 @@ namespace ClientExample
         private void Client_Reseive(object sender, NetManager.EventClientMsgArgs e)
         {
             var message = new SleepControllerMessage(e.Msg);
-            ClosedEyesDetector.IsClosed(
+            var index = 3;
+            var eegbatch = message.Data
+                .Skip(index * SleepControllerMessage.ChannelLength)
+                .Take(SleepControllerMessage.ChannelLength)
+                .Select(it => new EEGEntry(it));
+            IsClosed = ClosedEyesDetector.IsClosed(eegbatch);
         }
 
         private void FormMain_Load(object sender, EventArgs e)

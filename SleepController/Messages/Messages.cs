@@ -164,37 +164,10 @@ namespace SleepController.Messages
             return res;
         }
 
-        /// <summary>
-        /// количество каналов в массиве данных
-        /// </summary>
-        public static int ChannelsCount
-        {
-            get
-            {
-                return 29;
-            }
-        }
+        public const int ChannelsCount = 29;
 
-        /// <summary>
-        /// число элементов в канале
-        /// </summary>
-        public static int ChannelLength
-        {
-            get
-            {
-                return 24;
-            }
-        }
+        public const int ChannelLength = 24;
 
-        /// <summary>
-        /// размер структуры
-        /// </summary>
-        public static int Size
-        {
-            get
-            {
-                return 1460;
-            }
-        }
+        public const int Size = 1460;
     }
 }

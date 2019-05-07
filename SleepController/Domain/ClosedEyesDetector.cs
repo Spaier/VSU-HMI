@@ -15,12 +15,13 @@ namespace SleepController.Domain
 
         public int FloatingAverage { get; protected set; }
 
-        public bool IsClosed(IEnumerable<EEGEntry> batch, out int average)
+        public int Average { get; protected set; }
+
+        public bool IsClosed(IEnumerable<EEGEntry> batch)
         {
             var signalO1A1 = batch.Select(it => it.SignalO1A1);
-            average = signalO1A1.Sum(it => it) / signalO1A1.Count();
-
-            FloatingAverage = (PreviousWeight * FloatingAverage + NextWeight * average)
+            Average = signalO1A1.Sum(it => it) / signalO1A1.Count();
+            FloatingAverage = (PreviousWeight * FloatingAverage + NextWeight * Average)
                 / (NextWeight + PreviousWeight);
 
             // var antialiasing = Math.Abs(FloatingAverage - average);
