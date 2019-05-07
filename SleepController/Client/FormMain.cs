@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Windows.Forms;
-using NetManager.Client;
-using System.Xml;
-using SleepController.Messages;
-using SleepController.Domain;
-using System.Collections.Generic;
-using System.Linq;
 using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+using System.Xml;
+using SleepController.Domain;
+using SleepController.Messages;
 
 namespace ClientExample
 {
@@ -56,7 +54,7 @@ namespace ClientExample
             catch { }
         }
 
-        private string InitFileName = "Settings.xml";
+        private string InitFileName { get; set; } = "Settings.xml";
 
         private void SaveState()
         {
