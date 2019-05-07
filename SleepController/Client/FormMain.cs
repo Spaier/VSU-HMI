@@ -6,6 +6,7 @@ using SleepController.Messages;
 using SleepController.Domain;
 using System.Collections.Generic;
 using System.Linq;
+using System.Drawing;
 
 namespace ClientExample
 {
@@ -20,8 +21,6 @@ namespace ClientExample
 
         private ClosedEyesDetector ClosedEyesDetector { get; set; } = new ClosedEyesDetector();
 
-        public bool IsClosed { get; set; }
-
         private void Client_Error(object sender, NetManager.EventMsgArgs e)
         {
             MessageBox.Show(e.Msg, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -35,7 +34,9 @@ namespace ClientExample
                 .Skip(index * SleepControllerMessage.ChannelLength)
                 .Take(SleepControllerMessage.ChannelLength)
                 .Select(it => new EEGEntry(it));
-            IsClosed = ClosedEyesDetector.IsClosed(eegbatch);
+            eyeStatusGroupBox.BackColor = ClosedEyesDetector.IsClosed(eegbatch)
+                ? Color.AliceBlue
+                : Color.Red;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
