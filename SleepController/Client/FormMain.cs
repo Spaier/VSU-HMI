@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Xml;
 using SleepController.Domain;
 using SleepController.Messages;
+using static SleepController.Domain.Constants;
 
 namespace ClientExample
 {
@@ -19,12 +20,12 @@ namespace ClientExample
 
         private SuperDetector ClosedEyesDetector { get; set; } = new SuperDetector()
         {
-            ClosedEyesMinThreshold = 30,
+            Threshold = EYES_THRESHOLD,
         };
 
         private SuperDetector ArmPowerDetector { get; set; } = new SuperDetector()
         {
-            ClosedEyesMinThreshold = 50,
+            Threshold = ARM_THRESHOLD,
         };
 
         private void Client_Error(object sender, NetManager.EventMsgArgs e)

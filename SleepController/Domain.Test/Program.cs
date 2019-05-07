@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static SleepController.Domain.Constants;
 
 namespace SleepController.Domain.Test
 {
@@ -10,12 +11,18 @@ namespace SleepController.Domain.Test
     {
         static async Task Main(string[] args)
         {
-            var eegStreamReader = new StreamReader(@$"..\..\..\..\Data\kazakov_eeg_4channels.edf");
-            var armStreamReader = new StreamReader(@$"..\..\..\..\Data\buhanov_arm.dat");
+            using var eegStreamReader = new StreamReader(@$"..\..\..\..\Data\kazakov_eeg_4channels.edf");
+            var eegIndex = 0;
+
+            using var armStreamReader = new StreamReader(@$"..\..\..\..\Data\buhanov_arm.dat");
+            var armIndex = 22;
 
             var parser = new SignalParser();
-            var signal = await parser.Parse(eegStreamReader, 0).ConfigureAwait(false);
-            var detector = new SuperDetector();
+            var signal = await parser.Parse(armStreamReader, armIndex).ConfigureAwait(false);
+            var detector = new SuperDetector()
+            {
+                Threshold = ARM_THRESHOLD,
+            };
             var result = new List<(short Entry, bool IsClosed, int Average, int FloatingAverage)>();
             var batchSize = 24;
             {

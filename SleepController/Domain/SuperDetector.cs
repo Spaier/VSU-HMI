@@ -6,7 +6,7 @@ namespace SleepController.Domain
 {
     public class SuperDetector
     {
-        public int ClosedEyesMinThreshold { get; set; }
+        public int Threshold { get; set; }
 
         public int NextWeight => 2;
 
@@ -24,7 +24,7 @@ namespace SleepController.Domain
 
             return signal
                 .AsParallel()
-                .Any(it => Math.Abs(it - FloatingAverage) >= ClosedEyesMinThreshold);
+                .Any(it => Math.Abs(it - FloatingAverage) >= Threshold);
         }
     }
 }
