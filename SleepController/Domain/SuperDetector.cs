@@ -16,7 +16,7 @@ namespace SleepController.Domain
 
         public int Average { get; protected set; }
 
-        public bool IsClosed(IEnumerable<short> signal)
+        public bool Detect(IEnumerable<short> signal)
         {
             Average = signal.Sum(it => it) / signal.Count();
             FloatingAverage = (PreviousWeight * FloatingAverage + NextWeight * Average)

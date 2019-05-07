@@ -41,7 +41,7 @@ namespace ClientExample
             var eegSignal = message.Data
                 .Skip(eegIndex * SleepControllerMessage.ChannelLength)
                 .Take(SleepControllerMessage.ChannelLength);
-            eyesStatusGroupBox.BackColor = ClosedEyesDetector.IsClosed(eegSignal)
+            eyesStatusGroupBox.BackColor = ClosedEyesDetector.Detect(eegSignal)
                 ? Color.AliceBlue
                 : Color.Red;
 
@@ -49,7 +49,7 @@ namespace ClientExample
             var armSignal = message.Data
                 .Skip(armIndex * SleepControllerMessage.ChannelLength)
                 .Take(SleepControllerMessage.ChannelLength);
-            armStatusGroupBox.BackColor = ClosedEyesDetector.IsClosed(armSignal)
+            armStatusGroupBox.BackColor = ClosedEyesDetector.Detect(armSignal)
                 ? Color.AliceBlue
                 : Color.Red;
         }

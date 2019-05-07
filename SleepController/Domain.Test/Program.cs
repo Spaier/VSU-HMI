@@ -23,7 +23,7 @@ namespace SleepController.Domain.Test
             {
                 Threshold = ARM_THRESHOLD,
             };
-            var result = new List<(short Entry, bool IsClosed, int Average, int FloatingAverage)>();
+            var result = new List<(short Entry, bool IsDetected, int Average, int FloatingAverage)>();
             var batchSize = 24;
             {
                 var i = 0;
@@ -38,19 +38,19 @@ namespace SleepController.Domain.Test
                         break;
                     }
 
-                    var isClosed = detector.IsClosed(batch);
-                    result.AddRange(batch.Select(entry => (entry, isClosed, detector.Average, detector.FloatingAverage)));
+                    var isDetected = detector.Detect(batch);
+                    result.AddRange(batch.Select(entry => (entry, isDetected, detector.Average, detector.FloatingAverage)));
                 }
             }
 
             await File.WriteAllLinesAsync("results.csv", result
-                .Select(it => $"{(it.IsClosed ? "1" : "0")},{it.Average},{it.FloatingAverage},{it.Entry}")
-                .Prepend("IsClosed,Average,FloatingAverage,Value")
+                .Select(it => $"{(it.IsDetected ? "1" : "0")},{it.Average},{it.FloatingAverage},{it.Entry}")
+                .Prepend("IsDetected,Average,FloatingAverage,Value")
                 .ToArray())
                 .ConfigureAwait(false);
 
-            await File.WriteAllLinesAsync("detection.txt", result
-                .Select(it => $"{(it.IsClosed ? "1" : "0")}")
+            await File.WriteAllLinesAsync("is_detected.txt", result
+                .Select(it => $"{(it.IsDetected ? "1" : "0")}")
                 .ToArray())
                 .ConfigureAwait(false);
 

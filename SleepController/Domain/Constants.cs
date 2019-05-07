@@ -4,6 +4,6 @@
     {
         public const int EYES_THRESHOLD = 30;
 
-        public const int ARM_THRESHOLD = 50;
+        public const int ARM_THRESHOLD = 3000;
     }
 }
