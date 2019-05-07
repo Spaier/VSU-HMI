@@ -1,5 +1,6 @@
 ﻿#%%
 from bokeh.plotting import figure, show, output_file
+from bokeh.models import ColumnDataSource, CategoricalColorMapper
 from bokeh.transform import factor_cmap, linear_cmap, log_cmap
 
 import pandas as pd
@@ -9,12 +10,17 @@ output_path = r'charts.html'
 df = pd.read_csv(input_path)
 output_file(r'research.html')
 #%%
-time_grid = range(df.shape[0])
+data = {
+    'is_detected': df['IsDetected'],
+    'time': range(df.shape[0]),
+    'value': df['Value'],
+    'average': df['Average'],
+    'floating_average': df['FloatingAverage'],
+}
 #%%
+source = ColumnDataSource(data)
 p1 = figure(plot_height=730, plot_width=1500)
-p1.line(time_grid, df['Value'], color='red', legend='Value')
-p1.line(time_grid, df['Average'], color='blue', legend='Average')
-p1.line(time_grid, df['FloatingAverage'], color='green', legend='Floating Average')
-p1.line(time_grid, df['IsDetected'] * df['Value'], color='yellow', legend='Is Detected')
+p1.circle('time', 'value', legend='Value', color=linear_cmap('is_detected', ["red", "yellow"], 0, 1), size=0.1, source=source)
+p1.line('time', 'average', color='blue', legend='Average', source=source)
+p1.line('time', 'floating_average', color='green', legend='Floating Average', source=source)
 show(p1)
-#%%
