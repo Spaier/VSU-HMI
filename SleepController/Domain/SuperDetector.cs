@@ -6,7 +6,7 @@ namespace SleepController.Domain
 {
     public class SuperDetector
     {
-        public int ClosedEyesMinThreshold { get; set; } = 30;
+        public int ClosedEyesMinThreshold { get; set; }
 
         public int NextWeight => 2;
 

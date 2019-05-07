@@ -10,9 +10,11 @@ namespace SleepController.Domain.Test
     {
         static async Task Main(string[] args)
         {
-            var streamReader = new StreamReader(@"C:\Users\Spaier\Projects\VSU\HMI\EegSleepController\SleepController\Data\kazakov_eeg_4channels.edf");
-            var parser = new EEGParser();
-            var eeg = await parser.Parse(streamReader).ConfigureAwait(false);
+            var eegStreamReader = new StreamReader(@$"..\..\..\..\Data\kazakov_eeg_4channels.edf");
+            var armStreamReader = new StreamReader(@$"..\..\..\..\Data\buhanov_arm.dat");
+
+            var parser = new SignalParser();
+            var signal = await parser.Parse(eegStreamReader, 0).ConfigureAwait(false);
             var detector = new SuperDetector();
             var result = new List<(short Entry, bool IsClosed, int Average, int FloatingAverage)>();
             var batchSize = 24;
@@ -20,7 +22,7 @@ namespace SleepController.Domain.Test
                 var i = 0;
                 while (true)
                 {
-                    var batch = eeg.Data
+                    var batch = signal.Data
                         .Skip(batchSize * i++)
                         .Take(batchSize);
 
@@ -40,7 +42,7 @@ namespace SleepController.Domain.Test
                 .ToArray())
                 .ConfigureAwait(false);
 
-            await File.WriteAllLinesAsync("is_closed.txt", result
+            await File.WriteAllLinesAsync("detection.txt", result
                 .Select(it => $"{(it.IsClosed ? "1" : "0")}")
                 .ToArray())
                 .ConfigureAwait(false);
