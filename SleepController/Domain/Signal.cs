@@ -2,10 +2,10 @@
 
 namespace SleepController.Domain
 {
-    public class EEG
+    public class Signal
     {
         public int Frequency { get; set; }
 
-        public List<EEGEntry> Data { get; set; } = new List<EEGEntry>();
+        public List<short> Data { get; set; } = new List<short>();
     }
 }

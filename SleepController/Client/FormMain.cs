@@ -17,7 +17,7 @@ namespace ClientExample
             myClientControl.Client.Error += Client_Error;
         }
 
-        private ClosedEyesDetector ClosedEyesDetector { get; set; } = new ClosedEyesDetector();
+        private SuperDetector ClosedEyesDetector { get; set; } = new SuperDetector();
 
         private void Client_Error(object sender, NetManager.EventMsgArgs e)
         {
@@ -28,11 +28,10 @@ namespace ClientExample
         {
             var message = new SleepControllerMessage(e.Msg);
             var index = 3;
-            var eegbatch = message.Data
+            var signal = message.Data
                 .Skip(index * SleepControllerMessage.ChannelLength)
-                .Take(SleepControllerMessage.ChannelLength)
-                .Select(it => new EEGEntry(it));
-            eyeStatusGroupBox.BackColor = ClosedEyesDetector.IsClosed(eegbatch)
+                .Take(SleepControllerMessage.ChannelLength);
+            eyeStatusGroupBox.BackColor = ClosedEyesDetector.IsClosed(signal)
                 ? Color.AliceBlue
                 : Color.Red;
         }

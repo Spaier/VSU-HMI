@@ -6,9 +6,9 @@ namespace SleepController.Domain
 {
     public class EEGParser
     {
-        public async Task<EEG> Parse(StreamReader streamReader)
+        public async Task<Signal> Parse(StreamReader streamReader)
         {
-            var eeg = new EEG()
+            var eeg = new Signal()
             {
                 Frequency = 200,
             };
@@ -30,10 +30,7 @@ namespace SleepController.Domain
                     .Select(it => short.Parse(it))
                     .ToList();
 
-                eeg.Data.Add(new EEGEntry
-                (
-                    values[0]
-                ));
+                eeg.Data.Add(values[0]);
             }
 
             return eeg;

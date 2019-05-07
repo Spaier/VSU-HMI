@@ -13,8 +13,8 @@ namespace SleepController.Domain.Test
             var streamReader = new StreamReader(@"C:\Users\Spaier\Projects\VSU\HMI\EegSleepController\SleepController\Data\kazakov_eeg_4channels.edf");
             var parser = new EEGParser();
             var eeg = await parser.Parse(streamReader).ConfigureAwait(false);
-            var detector = new ClosedEyesDetector();
-            var result = new List<(EEGEntry Entry, bool IsClosed, int Average, int FloatingAverage)>();
+            var detector = new SuperDetector();
+            var result = new List<(short Entry, bool IsClosed, int Average, int FloatingAverage)>();
             var batchSize = 24;
             {
                 var i = 0;
@@ -35,7 +35,7 @@ namespace SleepController.Domain.Test
             }
 
             await File.WriteAllLinesAsync("results.csv", result
-                .Select(it => $"{(it.IsClosed ? "1" : "0")},{it.Average},{it.FloatingAverage},{it.Entry.SignalO1A1}")
+                .Select(it => $"{(it.IsClosed ? "1" : "0")},{it.Average},{it.FloatingAverage},{it.Entry}")
                 .Prepend("IsClosed,Average,FloatingAverage,Value")
                 .ToArray())
                 .ConfigureAwait(false);

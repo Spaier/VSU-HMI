@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SleepController.Domain
 {
-    public class ClosedEyesDetector
+    public class SuperDetector
     {
-        public int ClosedEyesMinThreshold => 30;
+        public int ClosedEyesMinThreshold { get; set; } = 30;
 
         public int NextWeight => 2;
 
@@ -17,15 +16,13 @@ namespace SleepController.Domain
 
         public int Average { get; protected set; }
 
-        public bool IsClosed(IEnumerable<EEGEntry> batch)
+        public bool IsClosed(IEnumerable<short> signal)
         {
-            var signalO1A1 = batch.Select(it => it.SignalO1A1);
-            Average = signalO1A1.Sum(it => it) / signalO1A1.Count();
+            Average = signal.Sum(it => it) / signal.Count();
             FloatingAverage = (PreviousWeight * FloatingAverage + NextWeight * Average)
                 / (NextWeight + PreviousWeight);
 
-            // var antialiasing = Math.Abs(FloatingAverage - average);
-            return signalO1A1
+            return signal
                 .AsParallel()
                 .Any(it => Math.Abs(it - FloatingAverage) >= ClosedEyesMinThreshold);
         }
