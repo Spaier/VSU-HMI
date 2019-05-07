@@ -26,7 +26,7 @@ namespace SleepController.Domain
                     continue;
                 }
 
-                var values = line.Split(' ')
+                var values = line.Split(' ', '\t')
                     .Select(it => short.Parse(it))
                     .ToList();
 
