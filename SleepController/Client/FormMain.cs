@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using NetManager.Client;
 using System.Xml;
 using SleepController.Messages;
+using SleepController.Domain;
 
 namespace ClientExample
 {
@@ -15,6 +16,8 @@ namespace ClientExample
             myClientControl.Client.Error += Client_Error;
         }
 
+        private ClosedEyesDetector ClosedEyesDetector { get; set; } = new ClosedEyesDetector();
+
         private void Client_Error(object sender, NetManager.EventMsgArgs e)
         {
             MessageBox.Show(e.Msg, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -23,7 +26,7 @@ namespace ClientExample
         private void Client_Reseive(object sender, NetManager.EventClientMsgArgs e)
         {
             var message = new SleepControllerMessage(e.Msg);
-            tbReseive.Text += $"{(new ClientAddress(e.ClientId, e.Name))}: Frequency = { message.Frequency }";
+            ClosedEyesDetector.IsClosed(
         }
 
         private void FormMain_Load(object sender, EventArgs e)
