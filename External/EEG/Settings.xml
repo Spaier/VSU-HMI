@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+  <EEG>
+    <Window WindowState="Maximized" Left="-8" Top="-8" Width="1552" Height="840" DrawDisable="false" />
+    <Network Port="8000" IP="127.0.0.1" Name="ЭЭГ" />
+    <E1 FHF="0" FLF="0" Amplification="5" />
+    <E2 FHF="0" FLF="0" Amplification="5" />
+    <E3 FHF="0" FLF="0" Amplification="5" />
+    <E4 FHF="0" FLF="0" Amplification="5" />
+    <Channels Fp1-A1="1" F3-A1="1" C3-A1="1" P3-A1="1" O1-A1="1" F7-A1="1" T3-A1="1" T5-A1="1" Fz-A1="1" PZ-A1="1" A1-A2="1" Fp2-A2="1" F4-A2="1" C4-A2="1" P4-A2="1" O2-A2="1" F8-A2="1" T4-A2="1" T6-A2="1" Fpz-A2="1" Cz-A2="1" Oz-A2="1" E1="1" E2="1" E3="1" E4="1" />
+    <Save Checked="false" />
+    <Scale X="0.02" Y="0.091005" />
+    <Visible>
+      <Channel0 View="false" Color="-32640" />
+      <Channel1 View="false" Color="-8323200" />
+      <Channel2 View="false" Color="-8355585" />
+      <Channel3 View="false" Color="-8355712" />
+      <Channel4 View="false" Color="-128" />
+      <Channel5 View="false" Color="-32513" />
+      <Channel6 View="false" Color="-8323073" />
+      <Channel7 View="false" Color="-16711681" />
+      <Channel8 View="false" Color="-65281" />
+      <Channel9 View="false" Color="-256" />
+      <Channel10 View="false" Color="-32768" />
+      <Channel11 View="false" Color="-65408" />
+      <Channel12 View="false" Color="-16711808" />
+      <Channel13 View="false" Color="-16744193" />
+      <Channel14 View="false" Color="-8388353" />
+      <Channel15 View="false" Color="-8323328" />
+      <Channel16 View="false" Color="-16711936" />
+      <Channel17 View="false" Color="-65536" />
+      <Channel18 View="false" Color="-16776961" />
+      <Channel19 View="false" Color="-16777088" />
+      <Channel20 View="false" Color="-16744448" />
+      <Channel21 View="false" Color="-8388608" />
+      <Channel22 View="true" Color="-8339456" />
+      <Channel23 View="false" Color="-8388416" />
+      <Channel24 View="false" Color="-4161536" />
+      <Channel25 View="false" Color="-4194176" />
+      <Channel26 View="false" Color="-16727936" />
+      <Channel27 View="false" Color="-16744256" />
+      <Channel28 View="false" Color="-8355648" />
+    </Visible>
+    <FilterCC Enabled="false" Count="50">
+      <Coef Enabled="false">
+        <Coef1 Value="0" />
+        <Coef2 Value="0" />
+        <Coef3 Value="0" />
+        <Coef4 Value="0" />
+        <Coef5 Value="0" />
+        <Coef6 Value="0" />
+        <Coef7 Value="0" />
+        <Coef8 Value="0" />
+        <Coef9 Value="0" />
+        <Coef10 Value="0" />
+        <Coef11 Value="0" />
+        <Coef12 Value="0" />
+        <Coef13 Value="0" />
+        <Coef14 Value="0" />
+        <Coef15 Value="0" />
+        <Coef16 Value="0" />
+        <Coef17 Value="0" />
+        <Coef18 Value="0" />
+        <Coef19 Value="0" />
+        <Coef20 Value="0" />
+        <Coef21 Value="0" />
+        <Coef22 Value="0" />
+        <Coef23 Value="0" />
+        <Coef24 Value="0" />
+        <Coef25 Value="0" />
+        <Coef26 Value="0" />
+        <Coef27 Value="0" />
+        <Coef28 Value="0" />
+        <Coef29 Value="0" />
+        <Coef30 Value="0" />
+        <Coef31 Value="0" />
+        <Coef32 Value="0" />
+        <Coef33 Value="0" />
+        <Coef34 Value="0" />
+        <Coef35 Value="0" />
+        <Coef36 Value="0" />
+        <Coef37 Value="0" />
+        <Coef38 Value="0" />
+        <Coef39 Value="0" />
+        <Coef40 Value="0" />
+        <Coef41 Value="0" />
+        <Coef42 Value="0" />
+        <Coef43 Value="0" />
+        <Coef44 Value="0" />
+        <Coef45 Value="0" />
+        <Coef46 Value="0" />
+        <Coef47 Value="0" />
+        <Coef48 Value="0" />
+        <Coef49 Value="0" />
+        <Coef50 Value="0" />
+        <Coef51 Value="0" />
+        <Coef52 Value="0" />
+        <Coef53 Value="0" />
+        <Coef54 Value="0" />
+        <Coef55 Value="0" />
+        <Coef56 Value="0" />
+        <Coef57 Value="0" />
+        <Coef58 Value="0" />
+        <Coef59 Value="0" />
+        <Coef60 Value="0" />
+        <Coef61 Value="0" />
+        <Coef62 Value="0" />
+        <Coef63 Value="0" />
+        <Coef64 Value="0" />
+        <Coef65 Value="0" />
+        <Coef66 Value="0" />
+        <Coef67 Value="0" />
+        <Coef68 Value="0" />
+        <Coef69 Value="0" />
+        <Coef70 Value="0" />
+        <Coef71 Value="0" />
+        <Coef72 Value="0" />
+        <Coef73 Value="0" />
+        <Coef74 Value="0" />
+        <Coef75 Value="0" />
+        <Coef76 Value="0" />
+        <Coef77 Value="0" />
+        <Coef78 Value="0" />
+        <Coef79 Value="0" />
+        <Coef80 Value="0" />
+        <Coef81 Value="0" />
+        <Coef82 Value="0" />
+        <Coef83 Value="0" />
+        <Coef84 Value="0" />
+        <Coef85 Value="0" />
+        <Coef86 Value="0" />
+        <Coef87 Value="0" />
+        <Coef88 Value="0" />
+        <Coef89 Value="0" />
+        <Coef90 Value="0" />
+        <Coef91 Value="0" />
+        <Coef92 Value="0" />
+        <Coef93 Value="0" />
+        <Coef94 Value="0" />
+        <Coef95 Value="0" />
+        <Coef96 Value="0" />
+        <Coef97 Value="0" />
+        <Coef98 Value="0" />
+        <Coef99 Value="0" />
+        <Coef100 Value="0" />
+        <Coef101 Value="0" />
+        <Coef102 Value="0" />
+        <Coef103 Value="0" />
+        <Coef104 Value="0" />
+        <Coef105 Value="0" />
+        <Coef106 Value="0" />
+        <Coef107 Value="0" />
+        <Coef108 Value="0" />
+        <Coef109 Value="0" />
+        <Coef110 Value="0" />
+        <Coef111 Value="0" />
+        <Coef112 Value="0" />
+        <Coef113 Value="0" />
+        <Coef114 Value="0" />
+        <Coef115 Value="0" />
+        <Coef116 Value="0" />
+        <Coef117 Value="0" />
+        <Coef118 Value="0" />
+        <Coef119 Value="0" />
+        <Coef120 Value="0" />
+        <Coef121 Value="0" />
+        <Coef122 Value="0" />
+        <Coef123 Value="0" />
+        <Coef124 Value="0" />
+        <Coef125 Value="0" />
+        <Coef126 Value="0" />
+        <Coef127 Value="0" />
+        <Coef128 Value="0" />
+        <Coef129 Value="0" />
+        <Coef130 Value="0" />
+        <Coef131 Value="0" />
+        <Coef132 Value="0" />
+        <Coef133 Value="0" />
+        <Coef134 Value="0" />
+        <Coef135 Value="0" />
+        <Coef136 Value="0" />
+        <Coef137 Value="0" />
+        <Coef138 Value="0" />
+        <Coef139 Value="0" />
+        <Coef140 Value="0" />
+        <Coef141 Value="0" />
+        <Coef142 Value="0" />
+        <Coef143 Value="0" />
+        <Coef144 Value="0" />
+        <Coef145 Value="0" />
+        <Coef146 Value="0" />
+        <Coef147 Value="0" />
+        <Coef148 Value="0" />
+        <Coef149 Value="0" />
+        <Coef150 Value="0" />
+        <Coef151 Value="0" />
+        <Coef152 Value="0" />
+        <Coef153 Value="0" />
+        <Coef154 Value="0" />
+        <Coef155 Value="0" />
+        <Coef156 Value="0" />
+        <Coef157 Value="0" />
+        <Coef158 Value="0" />
+        <Coef159 Value="0" />
+        <Coef160 Value="0" />
+        <Coef161 Value="0" />
+        <Coef162 Value="0" />
+        <Coef163 Value="0" />
+        <Coef164 Value="0" />
+        <Coef165 Value="0" />
+        <Coef166 Value="0" />
+        <Coef167 Value="0" />
+        <Coef168 Value="0" />
+        <Coef169 Value="0" />
+        <Coef170 Value="0" />
+        <Coef171 Value="0" />
+        <Coef172 Value="0" />
+        <Coef173 Value="0" />
+        <Coef174 Value="0" />
+        <Coef175 Value="0" />
+        <Coef176 Value="0" />
+        <Coef177 Value="0" />
+        <Coef178 Value="0" />
+        <Coef179 Value="0" />
+        <Coef180 Value="0" />
+        <Coef181 Value="0" />
+        <Coef182 Value="0" />
+        <Coef183 Value="0" />
+        <Coef184 Value="0" />
+        <Coef185 Value="0" />
+        <Coef186 Value="0" />
+        <Coef187 Value="0" />
+        <Coef188 Value="0" />
+        <Coef189 Value="0" />
+        <Coef190 Value="0" />
+        <Coef191 Value="0" />
+        <Coef192 Value="0" />
+        <Coef193 Value="0" />
+        <Coef194 Value="0" />
+        <Coef195 Value="0" />
+        <Coef196 Value="0" />
+        <Coef197 Value="0" />
+        <Coef198 Value="0" />
+        <Coef199 Value="0" />
+        <Coef200 Value="0" />
+        <Coef201 Value="0" />
+        <Coef202 Value="0" />
+      </Coef>
+    </FilterCC>
+    <Emulator Enabled="false" FileName="" Disconnect="false" />
+  </EEG>
+</Settings>

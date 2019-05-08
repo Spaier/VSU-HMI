@@ -37,13 +37,13 @@ namespace ClientExample
         {
             var message = new SleepControllerMessage(e.Msg);
 
-            var eegIndex = 3;
-            var eegSignal = message.Data
-                .Skip(eegIndex * SleepControllerMessage.ChannelLength)
-                .Take(SleepControllerMessage.ChannelLength);
-            eyesStatusGroupBox.BackColor = ClosedEyesDetector.Detect(eegSignal)
-                ? Color.AliceBlue
-                : Color.Red;
+            //var eegIndex = 3;
+            //var eegSignal = message.Data
+            //    .Skip(eegIndex * SleepControllerMessage.ChannelLength)
+            //    .Take(SleepControllerMessage.ChannelLength);
+            //eyesStatusGroupBox.BackColor = ClosedEyesDetector.Detect(eegSignal)
+            //    ? Color.AliceBlue
+            //    : Color.Red;
 
             var armIndex = 22;
             var armSignal = message.Data
